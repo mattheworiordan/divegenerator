@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'haml'
+require 'sass'
 require 'generators'
 
 get '/' do
@@ -24,3 +25,7 @@ get '/' do
   # puts(diveGenerator.getRandomDives(5, true).to_s)
 end
 
+get '/css/stylesheet.css' do
+  content_type 'text/css', :charset => 'utf-8'
+  sass :stylesheet
+end
