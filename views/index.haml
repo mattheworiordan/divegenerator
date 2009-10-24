@@ -1,7 +1,23 @@
 !!!
 %html
 	%head
-		%link{:href => '/css/stylesheet.css', :type => 'text/css', :rel => 'stylesheet', :charset => "utf-8"}
+		%link{:href => '/css/master.css', :type => 'text/css', :rel => 'stylesheet', :charset => "utf-8"}
+		%script{:src => '/scripts/jquery.min.js', :type => 'text/javascript'}
+		%script{:src => '/scripts/jquery.swfobject.min.js', :type => 'text/javascript'}
+		%script{:src => '/scripts/jquery.sifr.min.js', :type => 'text/javascript'}
+		:javascript
+			$(document).ready(function(){
+				$.sifr({
+					path: '/fonts/',
+					save: true,
+					version: 2
+				});
+				$('h1').sifr({ font: '36daythk' });
+				alert ('done');
+			});
+			
 	%body
-		%h1 Hello
+		#header 
+			%img{:src => "/images/icon-135.png", :width => 135, :height => 135 }
+			%h1 Matt's Dive Generator
 		#diveresult= @dives

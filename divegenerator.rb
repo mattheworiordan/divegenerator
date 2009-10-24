@@ -25,7 +25,8 @@ get '/' do
   # puts(diveGenerator.getRandomDives(5, true).to_s)
 end
 
-get '/css/stylesheet.css' do
+get '/css/*.css' do
   content_type 'text/css', :charset => 'utf-8'
-  sass :stylesheet
+  
+  sass :'css/master'
 end
