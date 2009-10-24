@@ -1,16 +1,56 @@
-!divecolor = red
-!pagecolor = #CCC
+!divecolor = yellow
+!pagecolor = #666600
 
-#body 
-	:background-color= !pagecolor
+body 
+	:background-color= white
 	:font-family Arial, Helvetica
 	:color black
-	:margin 0
-	:border 0
+	:margin 0px
 
 #header
 	:border-bottom= 2px solid !pagecolor * 0.5
-	:background-color 
+	:padding 10px
+	:overflow auto
+
+	div
+		float: left
+	img
+		:width 80px
+		:height 80px
+	h1 
+		:font-size 35px
+		:font-weight normal
+		:font-family Helvetica, Arial, Sans Serif
+		:margin 15px 0 0 25px
+	.strapline
+		:margin-left 25px
+		:font-size 12px
+		:font-style italic
+
+#content
+	:background-color= !pagecolor
+	:padding 10px
+	:overflow auto
+	
+	h2 
+		:margin 0
+		
+	h3
+		:font-weight normal
+	
+#formBox	
+	#container
+		:background-color= !pagecolor * 1.5	
+		:overflow auto
+		:width 700px
+		:margin 0 auto 0 auto
+		.column
+			:padding 10px
+			:float left
 
 #diveresult
+	:clear left
 	:color= !divecolor
+	
+
+	

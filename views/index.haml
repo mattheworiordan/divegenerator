@@ -12,12 +12,27 @@
 					save: true,
 					version: 2
 				});
-				$('h1').sifr({ font: '36daythk' });
-				alert ('done');
+				// $('h1').sifr({ font: 'sansbetween' });
 			});
 			
 	%body
 		#header 
-			%img{:src => "/images/icon-135.png", :width => 135, :height => 135 }
-			%h1 Matt's Dive Generator
-		#diveresult= @dives
+			%div
+				%img{:src => "/images/icon-135.png"}
+			%div
+				%h1 Dive Generator
+				%div.strapline As used by the Bad Lieutenants ;)
+		#content
+			#formBox
+				#container
+					.column
+						%h2 1. 
+						%h3 Choose your discipline
+					.column
+						%h2 2. 
+						%h3 Select your dive sequence
+					.column
+						%h2 3. 
+						%h3 Number of jumps
+			
+			#diveresult= @dives
