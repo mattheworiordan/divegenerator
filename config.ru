@@ -1,2 +1,2 @@
-require 'dive_pool_generator'
+require 'divegenerator'
 run Sinatra::Application
