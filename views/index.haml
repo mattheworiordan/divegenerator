@@ -32,7 +32,7 @@
 							%h2 2. 
 							%h3 Select your dive sequence
 							%fieldset
-								- [['random','Random dives'], ['shortestrandom','Shortest route to do every move combination in random order (recommended)'], ['shortest','Shortest route to do every move combination in alphanumeric order (not recommended)']].each do |sequence|
+								- [['random','Random dives'], ['shortestrandom','Shortest route to do every move combination in random order (recommended, least jumps)'], ['shortest','Shortest route to do every move combination in alphanumeric order (not recommended, most jump)']].each do |sequence|
 									.option
 										%input{:type => "radio", :disabled => "true", :checked => sequence[0] == @selected_sequence ? "checked" : nil, :name=>"post[sequence]", :id=>"sequence_" + sequence[0], :value=>sequence[0] }
 										%label.radio{:for => "sequence_" + sequence[0] }= sequence[1]
