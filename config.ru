@@ -1,2 +1,2 @@
-require 'divegenerator'
+require 'app'
 run Sinatra::Application

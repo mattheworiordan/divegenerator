@@ -22,10 +22,9 @@ end
 helpers do 
   def get_selected_form_fields
     vals = params["post"] ? params["post"] : {}
-    @selected_discipline = vals["discipline"]
-    @selected_sequence = vals["sequence"]
-    @selected_jumps = vals["jumps"]
-    @selected_jumps ||= "all"
+    @selected_discipline = vals["discipline"] 
+    @selected_sequence = vals["sequence"] ? vals["sequence"] : "shortestrandom" # set shortest random to default if no other value exists
+    @selected_jumps = vals["jumps"] =~ /\d+/ ? vals["jumps"] : nil
   end
 end
 
@@ -51,14 +50,14 @@ get '/shortest_path.*' do
     
     disciplinedata = Discipline.all(:conditions => {:title => @selected_discipline }).first
     result = { :success => false, :message => "Discipline '#{@selected_discipline}' not found" } unless disciplinedata
-    result ||= { :success => false, :message => "Number of jumps missing or invalid" } unless (@selected_sequence =~ /^shortest/) || ((@selected_jumps =~ /[\d+]/) && !(@selected_sequence =~ /^shortest/))
+    result ||= { :success => false, :message => "Number of jumps missing or invalid" } unless ((@selected_sequence =~ /^shortest/) || vals["jumps"].nil? && !(@selected_sequence =~ /^shortest/))
     
     if result.nil? 
       moves = disciplinedata.moves.map { |m| Generators::SkydiveMove.new(m.points, m.move_type, m.shortname) }
       generator = Generators::DiveGenerator.new(@selected_discipline, disciplinedata.min_points_per_round, moves)
       
       if (@selected_sequence =~ /^shortest/) then
-        result ||= { :success => true, :data => generator.getShortestPath, :moves => moves}
+        result ||= { :success => true, :data => generator.getShortestPath(@selected_jumps.to_i), :moves => moves}
       else
         result ||= { :success => true, :data => generator.getRandomDives(@selected_jumps.to_i, true), :moves => moves}
       end
@@ -69,11 +68,11 @@ get '/shortest_path.*' do
   
   case @content_type
     when :json then 
-      result.to_json; 
       mime :json, "application/json"
+      result.to_json
     when :csv then 
-      result[:success] ? result[data].to_json : 'Error generating CSV - ' + result[:message]
       mime :csv, "text/csv"
+      result[:success] ? result[data].to_json : 'Error generating CSV - ' + result[:message]
     else result.to_json
   end
   

@@ -1,6 +1,7 @@
 !!!
 %html
 	%head
+		%meta{:"http-equiv" => "content-type", :content => "text/html", :charset => "utf-8"}
 		%link{:href => '/css/master.css', :type => 'text/css', :rel => 'stylesheet', :charset => "utf-8"}
 		%script{:src => '/scripts/jquery.min.js', :type => 'text/javascript'}
 		%script{:src => '/scripts/jquery.swfobject.min.js', :type => 'text/javascript'}
@@ -25,36 +26,27 @@
 							%fieldset
 								- @disciplines.each do |discipline|
 									.option
-										%input{:type => "radio", :checked => discipline.title == @selected_discipline_title ? "true" : "false", :name=>"post[discipline]", :id=>"discipline_" + discipline.id.to_s, :value=>discipline.title }
+										%input{:type => "radio", :checked => discipline.title == @selected_discipline_title ? "checked" : nil, :name=>"post[discipline]", :id=>"discipline_" + discipline.id.to_s, :value=>discipline.title }
 										%label.radio{:for => "discipline_" + discipline.id.to_s }= discipline.title
 						.column
 							%h2 2. 
 							%h3 Select your dive sequence
 							%fieldset
-								.option
-									%input{:type => "radio", :checked => @selected_dive_sequence == "random" ? "true" : "false", :name=>"post[sequence]", :id=>"sequence_random", :value=>"random" }
-									%label.radio{:for => "sequence_random"} 
-										Random dives
-								.option
-									%input{:type => "radio", :checked => @selected_dive_sequence == "shortestrandom" ? "true" : "false", :name=>"post[sequence]", :id=>"sequence_shortestrandom", :value=>"shortestrandom" }
-									%label.radio{:for => "sequence_shortestrandom"} 
-										Shortest route to do every move combination in random order
-								
-								.option
-									%input{:type => "radio", :checked => @selected_dive_sequence == "shortest" ? "true" : "false", :name=>"post[sequence]", :id=>"sequence_shortest", :value=>"shortest" }
-									%label.radio{:for => "sequence_shortest"} 
-										Shortest route to do every move combination in alphanumeric order								
+								- [['random','Random dives'], ['shortestrandom','Shortest route to do every move combination in random order'], ['shortest','Shortest route to do every move combination in alphanumeric order']].each do |sequence|
+									.option
+										%input{:type => "radio", :checked => sequence[0] == @selected_sequence ? "checked" : nil, :name=>"post[sequence]", :id=>"sequence_" + sequence[0], :value=>sequence[0] }
+										%label.radio{:for => "sequence_" + sequence[0] }= sequence[1]
 						.column
 							%h2 3. 
 							%h3 Number of jumps
 							%fieldset
 								- [['5','5'], ['10','10'], ['20','20'], ['all','All jumps needed to perform every block and random combination']].each do |jump|
 									.option
-										%input{:type => "radio", :checked => jump[0] == @selected_jumps ? "true" : "false", :name=>"post[jumps]", :id=>"jumps_" + jump[0], :value=>jump[0] }
+										%input{:type => "radio", :checked => jump[0] == @selected_jumps ? "checked" : nil, :name=>"post[jumps]", :id=>"jumps_" + jump[0], :value=>jump[0] }
 										%label.radio{:for => "jumps_" + jump[0] }= jump[1]
 										
 				.row
-					%input.submit{:type => "submit", :value => "Generated Dives »", :id => "generate_dives_button"}
+					%input.submit{:type => "submit", :value => "Generate Dives »", :id => "generate_dives_button"}
 			
 			#diveresult
 				%h2 Your Dive Pool
@@ -74,7 +66,4 @@
 						.sequence A-B-12-1
 					.dive
 						.number 11.
-						.sequence A-B-12-1
-					.dive
-						.number 12.
 						.sequence A-B-12-1
