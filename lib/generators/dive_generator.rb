@@ -76,7 +76,7 @@ module Generators
 
         currentDivePoints += nextMove.points
         currentDive << nextMove
-
+        
         # clean up, remove the pair lastMove-nextMove
         move_pairs.delete([lastMove, nextMove])
 
@@ -94,7 +94,8 @@ module Generators
           currentDive = Dive.new(lastMove)
         end
       end
-      return sequenceOfDives
+      
+      sequenceOfDives
     end
   end
 end

@@ -2,15 +2,22 @@
 !pagecolor = #666600
 
 body 
-	:background-color= white
-	:font-family Arial, Helvetica
+	:background-color= !pagecolor
+	:font-family Helvetica, Arial
+	:font-size 13px
 	:color black
 	:margin 0px
+	
+fieldset
+	:border 0 none
+	:margin 0
+	:padding 0
 
 #header
 	:border-bottom= "2px" "solid" !pagecolor * 0.5
 	:padding 10px
 	:overflow auto
+	:background-color white
 
 	div
 		float: left
@@ -28,29 +35,79 @@ body
 		:font-style italic
 
 #content
-	:background-color= !pagecolor
 	:padding 10px
 	:overflow auto
 	
 	h2 
 		:margin 0
-		
+		:font-size 26px
 	h3
+		:font-size 18px
 		:font-weight normal
 	
 #formBox	
 	#container
 		:background-color= !pagecolor * 1.5	
 		:overflow auto
-		:width 700px
+		:width 750px
 		:margin 0 auto 0 auto
 		.column
 			:padding 10px
 			:float left
+			:width 230px
+			input 
+				:clear left
+				:float left
+				:display block
+				:padding 0
+			label.radio
+				:clear none
+				:margin 0 0 0 25px
+				:padding 0 0 8px
+				:display block
+	.row
+		:width 730px
+		:padding 10px
+		:margin 10px auto 10px auto
+		:background-color= !pagecolor * 1.5	
+		:overflow auto
+		input.submit
+			:background-color #F3F3F3 
+			:border-color #CCC #999 #999 #CCC
+			:border-style solid
+			:border-width 1px
+			:color #666
+			:float right
+			:font-size 1.2em
+			:font-weight bold
+			:height 4em
+			:width 14em
 
 #diveresult
-	:clear left
-	:color= !divecolor
+	:width 730px
+	:padding 10px
+	:margin 10px auto 10px auto
+	:background-color= !pagecolor * 1.5	
+	:overflow auto
+	:clear both
+	#divepool
+		:padding-top 10px
+		:overflow auto
+		.dive
+			:width 131px
+			:padding 5px
+			:background-color= !pagecolor * 1.35
+			:color= !divecolor
+			:margin 0 5px 5px 0
+			:float left
+			:overflow auto
+			.number
+				:font-size 11px
+				:float left
+			.sequence
+				:font-weight bold
+				:float right
+				:text-align right
 	
 
 	

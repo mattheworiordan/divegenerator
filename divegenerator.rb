@@ -3,9 +3,11 @@ require 'sinatra'
 require 'haml'
 require 'sass'
 require 'activerecord'
-
+require 'json'
+ 
 require 'config/setup.rb'
 require 'lib/generators'
+
 
 configure :local, :development do
   dbconfig = YAML.load(File.read('config/database.yml'))
@@ -17,17 +19,65 @@ configure :production, :test do
   ActiveRecord::Base.establish_connection dbconfig[:production.to_s]
 end
 
-get '/' do
-  discipline_name = "VFS - Vertical Formation Skydiving"
-  discipline = Discipline.all(:conditions => {:title => discipline_name }).first
-  moves = discipline.moves.map { |m| Generators::SkydiveMove.new(m.points, m.move_type, m.shortname) }
-  generator = Generators::DiveGenerator.new(discipline_name, discipline.min_points_per_round, moves)
-  
-  shortestPath = generator.getShortestPath
+helpers do 
+  def get_selected_form_fields
+    vals = params["post"] ? params["post"] : {}
+    @selected_discipline = vals["discipline"]
+    @selected_sequence = vals["sequence"]
+    @selected_jumps = vals["jumps"]
+    @selected_jumps ||= "all"
+  end
+end
 
-  @dives = shortestPath.to_s.gsub(/\n/,"<br>")
-  
+get '/' do
+  get_selected_form_fields
+  @disciplines = Discipline.all(:order => "title ASC")
   haml :index
+end
+  
+get '/shortest_path.*' do
+  @content_type = :html
+  case params["splat"][0]
+    when "json" then @content_type = :json
+    when "csv" then @content_type = :csv
+  end
+  content_type @content_type
+  
+  result = nil
+  
+  result = { :success => false, :message => "Parameter's missing" } unless params["post"] 
+  if result.nil? 
+    get_selected_form_fields
+    
+    disciplinedata = Discipline.all(:conditions => {:title => @selected_discipline }).first
+    result = { :success => false, :message => "Discipline '#{@selected_discipline}' not found" } unless disciplinedata
+    result ||= { :success => false, :message => "Number of jumps missing or invalid" } unless (@selected_sequence =~ /^shortest/) || ((@selected_jumps =~ /[\d+]/) && !(@selected_sequence =~ /^shortest/))
+    
+    if result.nil? 
+      moves = disciplinedata.moves.map { |m| Generators::SkydiveMove.new(m.points, m.move_type, m.shortname) }
+      generator = Generators::DiveGenerator.new(@selected_discipline, disciplinedata.min_points_per_round, moves)
+      
+      if (@selected_sequence =~ /^shortest/) then
+        result ||= { :success => true, :data => generator.getShortestPath, :moves => moves}
+      else
+        result ||= { :success => true, :data => generator.getRandomDives(@selected_jumps.to_i, true), :moves => moves}
+      end
+    end
+  end
+  
+
+  
+  case @content_type
+    when :json then 
+      result.to_json; 
+      mime :json, "application/json"
+    when :csv then 
+      result[:success] ? result[data].to_json : 'Error generating CSV - ' + result[:message]
+      mime :csv, "text/csv"
+    else result.to_json
+  end
+  
+  # haml :index
   
   
   
