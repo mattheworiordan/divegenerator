@@ -14,7 +14,7 @@ end
 
 configure :production, :test do
   dbconfig = YAML.load(File.read('config/database.yml'))
-  ActiveRecord::Base.establish_connection dbconfig[options[:production.to_s]]
+  ActiveRecord::Base.establish_connection dbconfig[:production.to_s]
 end
 
 get '/' do
