@@ -39,25 +39,40 @@ function generate_dives()
 
 var jump_max = 40, jump_all_text;
 
+function review_discipline()
+{
+	$("input[name='post[sequence]']").removeAttr ("disabled");
+	$("div.column#sequence").removeClass ("disabled");
+	$("input[name='post[sequence]']:checked").click();
+}
+
 function review_jump_numbers()
 {
-	jump_field = $("input[name='post[jumps]']:last");
+	// now that we have selected dive sequence, enable jumps section
+	$("input[name='post[jumps]']").removeAttr ("disabled");
+	$("div.column#jumps").removeClass ("disabled");
 	
-	// if the user has selected random, then the all option is not relevant so offer 40 jumps
-	if ($(this).val() == "random")
+	if ($(this).val() == "random") 	// if the user has selected random, then the all option is not relevant so offer 40 jumps
 	{
-		if (jump_field.val() == "all") {
-			jump_field.val('40');
-			jump_all_text = $("label[for='" + jump_field.attr("id") + "']").text()
-			$("label[for='" + jump_field.attr("id") + "']").text ("40");
-		}
+		$("input[name='post[jumps]']").removeAttr ("disabled");
+		$("div.column#jumps label").removeClass ("disabled")
+		
+		jump_field.val('40');
+		$("label[for='" + jump_field.attr("id") + "']").text ("40");
 			
-	} else 
-	{
-		if (jump_field.val() != "all") {
-			jump_field.val('all');
-			$("label[for='" + jump_field.attr("id") + "']").text(jump_all_text);
-		}
+	} else { // user has selected shortest route 
+		// disable all options other than ALL
+		$("input[name='post[jumps]']").attr ("disabled","true");
+		$("div.column#jumps label").addClass ("disabled")
+		
+		// set the ALL option to all
+		jump_field.removeAttr ("disabled");
+		jump_field.val('all');
+		
+		// set the text and enable the label for ALL option
+		$("label[for='" + jump_field.attr("id") + "']").text (jump_all_text);
+		$("label[for='" + jump_field.attr("id") + "']").removeClass ("disabled");
+		jump_field.attr ("checked", "true");
 	}
 }
 
@@ -70,8 +85,13 @@ $(document).ready(function(){
 	$('h1').sifr({ font: 'sansbetween' });
 	
 	$('#generate_dives_button').click(generate_dives);
+	$("input[name='post[discipline]']").click(review_discipline);
 	$("input[name='post[sequence]']").click(review_jump_numbers);
-	$("input[name='post[sequence]']:checked").click();
+	
+	jump_field = $("input[name='post[jumps]']:last");
+	jump_all_text = $("label[for='" + jump_field.attr("id") + "']").text(); // get the text used to describe all from the app
+	
+	$("input[name='post[discipline]']:checked").click();
 });
 
 

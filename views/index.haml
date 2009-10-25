@@ -20,7 +20,7 @@
 				%form
 					#container
 				
-						.column
+						.column#discipline
 							%h2 1. 
 							%h3 Choose your discipline
 							%fieldset
@@ -28,21 +28,21 @@
 									.option
 										%input{:type => "radio", :checked => discipline.title == @selected_discipline_title ? "checked" : nil, :name=>"post[discipline]", :id=>"discipline_" + discipline.id.to_s, :value=>discipline.title }
 										%label.radio{:for => "discipline_" + discipline.id.to_s }= discipline.title
-						.column
+						.column.disabled#sequence
 							%h2 2. 
 							%h3 Select your dive sequence
 							%fieldset
-								- [['random','Random dives'], ['shortestrandom','Shortest route to do every move combination in random order'], ['shortest','Shortest route to do every move combination in alphanumeric order']].each do |sequence|
+								- [['random','Random dives'], ['shortestrandom','Shortest route to do every move combination in random order (recommended)'], ['shortest','Shortest route to do every move combination in alphanumeric order (not recommended)']].each do |sequence|
 									.option
-										%input{:type => "radio", :checked => sequence[0] == @selected_sequence ? "checked" : nil, :name=>"post[sequence]", :id=>"sequence_" + sequence[0], :value=>sequence[0] }
+										%input{:type => "radio", :disabled => "true", :checked => sequence[0] == @selected_sequence ? "checked" : nil, :name=>"post[sequence]", :id=>"sequence_" + sequence[0], :value=>sequence[0] }
 										%label.radio{:for => "sequence_" + sequence[0] }= sequence[1]
-						.column
+						.column.disabled#jumps
 							%h2 3. 
 							%h3 Number of jumps
 							%fieldset
 								- [['5','5'], ['10','10'], ['20','20'], ['all','All jumps needed to perform every block and random combination']].each do |jump|
 									.option
-										%input{:type => "radio", :checked => jump[0] == @selected_jumps ? "checked" : nil, :name=>"post[jumps]", :id=>"jumps_" + jump[0], :value=>jump[0] }
+										%input{:type => "radio", :disabled => "true", :checked => jump[0] == @selected_jumps ? "checked" : nil, :name=>"post[jumps]", :id=>"jumps_" + jump[0], :value=>jump[0] }
 										%label.radio{:for => "jumps_" + jump[0] }= jump[1]
 										
 				.row

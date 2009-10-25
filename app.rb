@@ -23,7 +23,7 @@ helpers do
   def get_selected_form_fields
     vals = params["post"] ? params["post"] : {}
     @selected_discipline = vals["discipline"] 
-    @selected_sequence = vals["sequence"] ? vals["sequence"] : "shortestrandom" # set shortest random to default if no other value exists
+    @selected_sequence = vals["sequence"] ? vals["sequence"] : nil # set shortest random to default if no other value exists
     @selected_jumps = vals["jumps"] =~ /\d+/ ? vals["jumps"] : nil
   end
 end
@@ -48,7 +48,7 @@ get '/shortest_path.*' do
   if result.nil? 
     get_selected_form_fields
     
-    disciplinedata = Discipline.all(:conditions => {:title => @selected_discipline }).first
+    disciplinedata = Discipline.all(:conditions => {:title => @selected_discipline }, :order => "title ASC").first
     result = { :success => false, :message => "Discipline '#{@selected_discipline}' not found" } unless disciplinedata
     result ||= { :success => false, :message => "Number of jumps missing or invalid" } unless ((@selected_sequence =~ /^shortest/) || !@selected_jumps.nil? && !(@selected_sequence =~ /^shortest/))
     
@@ -57,7 +57,7 @@ get '/shortest_path.*' do
       generator = Generators::DiveGenerator.new(@selected_discipline, disciplinedata.min_points_per_round, moves)
       
       if (@selected_sequence =~ /^shortest/) then
-        result ||= { :success => true, :data => generator.getShortestPath(@selected_jumps.to_i, (@selected_sequence =~ /^random/ ? true : false)), :moves => moves}
+        result ||= { :success => true, :data => generator.getShortestPath(@selected_jumps.to_i, (@selected_sequence =~ /random/ ? true : false)), :moves => moves}
       else
         result ||= { :success => true, :data => generator.getRandomDives(@selected_jumps.to_i), :moves => moves}
       end

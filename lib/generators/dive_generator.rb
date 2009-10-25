@@ -52,13 +52,15 @@ module Generators
     # get the least number of dives possible to do every single move to every other move
     def getShortestPath(max_jumps, random=true)
       checkValidSetup
-
+      
       sequenceOfDives = DiveSequence.new
       
       move_pairs =
         @movePool.values.map { |a| @movePool.values.map { |b| [a, b] } }. # make some arrays of move pairs
         inject([]) { |result, move_pairs| result.concat(move_pairs) }.    # concatenate those into a single array of move pairs
         reject { |a, b| a == b }                                          # throw away pairs of the same move
+        
+      move_pairs.sort! { |x,y| x[0].symbol.rjust(3) << x[1].symbol.rjust(3) <=> y[0].symbol.rjust(3) << y[1].symbol.rjust(3) } unless random
 
       lastMove = random ? move_pairs[rand(move_pairs.length)].first : move_pairs.first.first
       currentDive = Dive.new(lastMove)
