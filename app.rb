@@ -50,16 +50,16 @@ get '/shortest_path.*' do
     
     disciplinedata = Discipline.all(:conditions => {:title => @selected_discipline }).first
     result = { :success => false, :message => "Discipline '#{@selected_discipline}' not found" } unless disciplinedata
-    result ||= { :success => false, :message => "Number of jumps missing or invalid" } unless ((@selected_sequence =~ /^shortest/) || vals["jumps"].nil? && !(@selected_sequence =~ /^shortest/))
+    result ||= { :success => false, :message => "Number of jumps missing or invalid" } unless ((@selected_sequence =~ /^shortest/) || !@selected_jumps.nil? && !(@selected_sequence =~ /^shortest/))
     
     if result.nil? 
       moves = disciplinedata.moves.map { |m| Generators::SkydiveMove.new(m.points, m.move_type, m.shortname) }
       generator = Generators::DiveGenerator.new(@selected_discipline, disciplinedata.min_points_per_round, moves)
       
       if (@selected_sequence =~ /^shortest/) then
-        result ||= { :success => true, :data => generator.getShortestPath(@selected_jumps.to_i), :moves => moves}
+        result ||= { :success => true, :data => generator.getShortestPath(@selected_jumps.to_i, (@selected_sequence =~ /^random/ ? true : false)), :moves => moves}
       else
-        result ||= { :success => true, :data => generator.getRandomDives(@selected_jumps.to_i, true), :moves => moves}
+        result ||= { :success => true, :data => generator.getRandomDives(@selected_jumps.to_i), :moves => moves}
       end
     end
   end

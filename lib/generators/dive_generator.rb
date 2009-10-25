@@ -3,7 +3,7 @@ module Generators
     attr_reader :discipline, :movePool, :minPointsPerRound
 
     def initialize(discipline, minPointsPerRound, moves)
-      @movePool = RandomHash[*moves.map { |move| [move.symbol, move]}.flatten]
+      @movePool = Hash[*moves.map { |move| [move.symbol, move]}.flatten]
       @minPointsPerRound = minPointsPerRound
       @discipline = discipline
     end
@@ -15,38 +15,42 @@ module Generators
     end
 
     # get a list of random draws
-    # if singleDrawPool is true then all moves are pulled from a "pool" until all moves are used up
-    # if singleDrawPool is fale then each dive is completely random
-    def getRandomDives(numberDives, singleDrawPool = false)
+    # works by creating a pool of all moves 
+    def getRandomDives(max_jumps)
         checkValidSetup
-
         sequenceOfDives = DiveSequence.new
-        divePool = RandomArray.new
 
-        while (sequenceOfDives.length < numberDives)
-          dive = Dive.new
-          points = 0
+        allmoves = @movePool.values                                           # get the list of moves
+        lastMove = allmoves[rand(allmoves.length)]
+        currentDive = Dive.new(lastMove)
+        currentDivePoints = lastMove.points
+        
+        while (sequenceOfDives.length < max_jumps)
+          allmoves.delete(lastMove)                                          # move has been used, remove from moves        
+          allmoves = @movePool.values if allmoves.empty?                     # run out of moves, restart
+            
+          allowed_moves = allmoves.reject { |move| currentDive.include?(move) }  # filter out any moves that may exist in the dive already - can happen if moves have been repopulated
+          
+          nextMove = allowed_moves[rand(allowed_moves.length)]
 
-          while points < @minPointsPerRound
-            divePool.replace(@movePool.values) unless
-              ((!divePool.empty?) and singleDrawPool) or
-              ((points > 0) and !singleDrawPool)
-
-            move = divePool.random
-            divePool.delete(move)
-
-            points += move.points
-            dive.push(move)
+          currentDivePoints += nextMove.points
+          currentDive << nextMove
+          
+          lastMove = nextMove
+          
+          if (currentDivePoints >= @minPointsPerRound)
+            sequenceOfDives << currentDive
+            lastMove = allmoves[rand(allmoves.length)]
+            currentDive = Dive.new(lastMove)
+            currentDivePoints = lastMove.points
           end
-
-          sequenceOfDives.push(dive)
         end
 
         return sequenceOfDives
     end
 
     # get the least number of dives possible to do every single move to every other move
-    def getShortestPath(max_jumps)
+    def getShortestPath(max_jumps, random=true)
       checkValidSetup
 
       sequenceOfDives = DiveSequence.new
@@ -56,7 +60,7 @@ module Generators
         inject([]) { |result, move_pairs| result.concat(move_pairs) }.    # concatenate those into a single array of move pairs
         reject { |a, b| a == b }                                          # throw away pairs of the same move
 
-      lastMove = move_pairs[rand(move_pairs.length)].first
+      lastMove = random ? move_pairs[rand(move_pairs.length)].first : move_pairs.first.first
       currentDive = Dive.new(lastMove)
       
       while !move_pairs.empty? && ((max_jumps <= 0) || (sequenceOfDives.length < max_jumps)) # if max_jumps > 0 them limit jumps to max_jumps
@@ -65,13 +69,14 @@ module Generators
         nextMove =
           if !(next_moves = move_pairs.select { |a, b| a == lastMove }.map { |a, b| b } - currentDive).empty?
             # standard random call for next move when there are loads of moves available
-            next_moves[rand(next_moves.length)]
+            random ? next_moves[rand(next_moves.length)] : next_moves.first
           elsif !(next_moves = move_pairs.map { |a, b| a } - currentDive).empty?
             # nothing left in last permutation, just get a new starting position
-            next_moves[rand(next_moves.length)]
+            random ? next_moves[rand(next_moves.length)] : next_moves.first
           else
-            # just pull anything from the move pool, nothing left at all to use!
-            @movePool[@movePool.random_excluding(currentDive.collect {|mv| mv.symbol})]
+            # just pull anything from the move pool that has not been used, nothing left at all to use!
+            anymovepool = @movePool.values.reject { |move| currentDive.include?(move) }
+            random ? anymovepool[rand(anymovepool.length)] : anymovepool.first
           end
 
         currentDivePoints += nextMove.points
@@ -90,7 +95,7 @@ module Generators
 
           sequenceOfDives << currentDive
 
-          lastMove = move_pairs[rand(move_pairs.length)].first unless move_pairs.empty?
+          lastMove = (random ? move_pairs[rand(move_pairs.length)].first : move_pairs.first.first) unless move_pairs.empty?
           currentDive = Dive.new(lastMove)
         end
       end

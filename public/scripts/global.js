@@ -29,7 +29,7 @@ function generate_dives()
 				var moveSymbol = [];
 				for (move in data.data[jump])
 					 moveSymbol.push (data.data[jump][move][2])
-				dp.append ("<div class='dive'><div class='number'>" + sequence++ + "</div><div class='sequence'>" + moveSymbol.join('-') + "</div></div>");
+				dp.append ("<div class='dive'><div class='number'>" + sequence++ + ". </div><div class='sequence'>" + moveSymbol.join(' - ') + "</div></div>");
 			}
 		}
 		$('#diveresult').css("display", "block");
