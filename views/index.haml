@@ -10,9 +10,7 @@
 
 	%body
 		#header 
-			%div
-				%img{:src => "/images/icon-135.png"}
-			%div
+			%div.header
 				%h1 Dive Generator
 				%div.strapline As used by the Bad Lieutenants ;)
 		#content
@@ -50,6 +48,9 @@
 			
 			#diveresult
 				%h2 Your Dive Pool
+				#summary Has a total of 5 dives.  
+				#download 
+					%a{:href=>"#"}Download the dives in Excel format »
 				
 				#divepool
 					.dive

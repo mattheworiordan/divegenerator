@@ -7,18 +7,19 @@ function generate_dives()
 	$('#generate_dives_button').val("Loading...");
 	
 	// check that all params have valid selections and build up params to pass through on JSON request to app
+	urlparams = "";
 	paramdic = {'post[discipline]':'Discipline','post[jumps]':'Jumps','post[sequence]':'Dive sequence'};
-	JSONparams = {};
 	for (field in paramdic) {
-		JSONparams[field] = $("input[name='" + field + "']:checked").val();
-		if (!JSONparams[field]) {
+		paramval = $("input[name='" + field + "']:checked").val();
+		if (!paramval) {
 			alert ('Please select an option for "' + paramdic[field] + '"');
 			return;
 		}
+		urlparams += (urlparams.length ? "&" : "") + escape(field) + "=" + escape(paramval);
 	}
 	
 	// send request
-	$.getJSON("/shortest_path.json", JSONparams, function(data, textStatus) {
+	$.getJSON("/shortest_path.json?" + urlparams, function(data, textStatus) {
 	  	if (textStatus != "success" || !data.success) {
 			alert ("Unfortunately your dives could not be generated: \n" + data.message + "\nServer response: " + textStatus)
 		} else {
@@ -31,10 +32,13 @@ function generate_dives()
 					 moveSymbol.push (data.data[jump][move][2])
 				dp.append ("<div class='dive'><div class='number'>" + sequence++ + ". </div><div class='sequence'>" + moveSymbol.join(' - ') + "</div></div>");
 			}
+			$('#diveresult #summary').text ("Has a total of " + (sequence-1) + " dives.");
 		}
 		$('#diveresult').css("display", "block");
 		$('#generate_dives_button').val(originaltext);
 	});
+	
+	$('#diveresult #download a').attr ("href", "/shortest_path.csv?" + urlparams);
 }
 
 var jump_max = 40, jump_all_text;

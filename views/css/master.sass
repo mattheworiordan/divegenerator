@@ -1,5 +1,5 @@
-!divecolor = yellow
-!pagecolor = #666600
+!divecolor = #FFF
+!pagecolor = #069
 
 body 
 	:background-color= !pagecolor
@@ -12,18 +12,28 @@ fieldset
 	:border 0 none
 	:margin 0
 	:padding 0
+	
+a, a:visited, a:link
+	:color= !divecolor
+	:font-weight bold
+	:text-decoration none
+	&:hover
+		:text-decoration underline
+		
 
 #header
-	:border-bottom= "2px" "solid" !pagecolor * 0.5
+	:border-bottom= "1px" "solid" !pagecolor * 0.5
 	:padding 10px
 	:overflow auto
-	:background-color white
-
-	div
-		float: left
-	img
-		:width 80px
-		:height 80px
+	:background-image url(/images/background.png)
+	:background-repeat no-repeat
+	:background-position top center
+	:background-color= #EEF
+	:height 170px
+	div.header
+		:margin 0 auto 0 auto
+		:width 750px
+		:padding-top 50px
 	h1 
 		:font-size 35px
 		:font-weight normal
@@ -93,9 +103,14 @@ fieldset
 	:overflow auto
 	:clear both
 	:display none
+	#summary
+		:float left
+	#download
+		:float right
 	#divepool
 		:padding-top 10px
 		:overflow auto
+		:clear left
 		.dive
 			:width 131px
 			:padding 5px

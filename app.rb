@@ -4,6 +4,7 @@ require 'haml'
 require 'sass'
 require 'activerecord'
 require 'json'
+require 'fastercsv'
  
 require 'config/setup.rb'
 require 'lib/generators'
@@ -72,8 +73,8 @@ get '/shortest_path.*' do
       result.to_json
     when :csv then 
       mime :csv, "text/csv"
-      result[:success] ? result[data].to_json : 'Error generating CSV - ' + result[:message]
-    else result.to_json
+      result[:success] ? "Dive\n" + result[:data].map { |move| "'" << (move.map { |mv| mv.symbol }.join('-')) << "'" }.join("\n") : 'Error generating CSV - ' + result[:message]
+    else result[:success] ? result[:data].map { |move| move.map { |mv| mv.symbol }.join('-') }.join('<br>') : '<h1>Error generating HTML - ' + result[:message] + '</h1>'
   end
   
   # haml :index
