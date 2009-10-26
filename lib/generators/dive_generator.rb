@@ -20,33 +20,28 @@ module Generators
         checkValidSetup
         sequenceOfDives = DiveSequence.new
 
-        allmoves = @movePool.values                                           # get the list of moves
-        lastMove = allmoves[rand(allmoves.length)]
-        currentDive = Dive.new(lastMove)
-        currentDivePoints = lastMove.points
+        allmoves = @movePool.values                             # get a copy of the list of moves
+
+        currentDivePoints = 0
+        currentDive = Dive.new
         
         while (sequenceOfDives.length < max_jumps)
-          allmoves.delete(lastMove)                                          # move has been used, remove from moves        
-          allmoves = @movePool.values if allmoves.empty?                     # run out of moves, restart
-            
           allowed_moves = allmoves.reject { |move| currentDive.include?(move) }  # filter out any moves that may exist in the dive already - can happen if moves have been repopulated
-          
           nextMove = allowed_moves[rand(allowed_moves.length)]
-
+          allmoves.delete(nextMove)                                          # move has been used, remove from moves   
+               
+          allmoves = @movePool.values if allmoves.empty?      # run out of moves, restart, get a copy of the list of moves
+            
           currentDivePoints += nextMove.points
           currentDive << nextMove
           
-          lastMove = nextMove
-          
           if (currentDivePoints >= @minPointsPerRound)
             sequenceOfDives << currentDive
-            lastMove = allmoves[rand(allmoves.length)]
-            currentDive = Dive.new(lastMove)
-            currentDivePoints = lastMove.points
+            currentDive = Dive.new
           end
         end
 
-        return sequenceOfDives
+        sequenceOfDives
     end
 
     # get the least number of dives possible to do every single move to every other move
