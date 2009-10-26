@@ -4,7 +4,6 @@ require 'haml'
 require 'sass'
 require 'activerecord'
 require 'json'
-require 'fastercsv'
  
 require 'config/setup.rb'
 require 'lib/generators'
