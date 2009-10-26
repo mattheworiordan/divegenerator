@@ -1,0 +1,31 @@
+development:
+  adapter: sqlite3
+  encoding: utf8
+  reconnect: false
+  database: db/development.sqlite
+  pool: 5
+  username: 
+  password: 
+  host: 127.0.0.1
+
+# Currently reset dynamically be Heroku so ignore these settings
+test:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: divegenerator
+  pool: 5
+  username: 
+  password: 
+  host: 127.0.0.1
+
+# Currently reset dynamically be Heroku so ignore these settings
+production:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: divegenerator
+  pool: 5
+  username: 
+  password: 
+  host: localhost
