@@ -38,6 +38,7 @@ module Generators
           if (currentDivePoints >= @minPointsPerRound)
             sequenceOfDives << currentDive
             currentDive = Dive.new
+            currentDivePoints = 0
           end
         end
 
