@@ -1,0 +1,84 @@
+= Skydiving Dive Generator
+
+== Overview
+
+Dive Generator is a tool for competitive skydivers to generate random dive draws for their training.  
+
+It can be used to either generate a set of random dives based on the chosen discipline, or generate a randomised training plan which allows the team in the least possible number of jumps to perform each move combination i.e. every random and block to every other random and block.
+
+== Features
+
+* Random dive generator
+* Shortest route to perform every combination of move generator
+* Supports FS, VFS, Freestyle and Freefly discipline draws
+* Download your draw to CSV
+* Nice AJAX interface
+
+== Dependencies
+
+  $ gem install sinatra
+  $ gem install haml
+  $ gem install activerecord
+  $ gem install json
+  $ gem install launchy
+
+== Setup
+
+Edit main.rb and change the Blog config struct at the top to your liking.  For
+security purposes, change the admin password and the admin cookie key and
+value.  These last two can be set to any random value you like, just choose
+something other than the default.
+
+Then run the server:
+
+  $ ruby main.rb
+
+And visit: http://localhost:4567
+
+Log in with the password you selected, then click New Post.  The rest should be
+self-explanatory.
+
+In production, you'll probably want to run "rake start" to start (and restart)
+the server.  Change the value of "port" at the top of the Rakefile to run on a
+different port.
+
+== Database
+
+The default is a SQLite file named blog.db.  To use something else, set
+DATABASE_URL in your environment when running the app, i.e.:
+
+  $ DATABASE_URL='mysql://localhost/myblog' ruby main.rb
+
+Or, modify the Sequel.connect statement at the top of main.rb.
+
+The database will be created automatically when the server is executed.
+
+== Comments
+
+There are no comments by default.  If you wish to activate comments, create an
+account and a website on Disqus (disqus.com) and enter the website shortname as
+the :disqus_shortname value in the Blog config struct.
+
+== Import data
+
+Christopher Swenson has a Wordpress importer: http://github.com/swenson/scanty_wordpress_import
+
+Other kinds of data can be imported easily, take a look at the rake task :import for an example of loading from a YAML file with field names that match the database schema.
+
+== Customize
+
+There are no themes or settings beyond the basic ones in the Blog struct.  Just
+edit the CSS or the code as you see fit.
+
+== Meta
+
+Written by Adam Wiggins
+
+Patches contributed by: Christopher Swenson, S. Brent Faulkner, and Stephen Eley
+
+Released under the MIT License: http://www.opensource.org/licenses/mit-license.php
+
+http://github.com/adamwiggins/scanty
+
+http://adam.blog.heroku.com
+

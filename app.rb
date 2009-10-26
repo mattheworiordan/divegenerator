@@ -6,8 +6,7 @@ require 'activerecord'
 require 'json'
  
 require 'config/setup.rb'
-require 'lib/generators'
-
+require 'lib/generators/generators.rb'
 
 configure :local, :development do
   dbconfig = YAML.load(File.read('config/database.yml'))

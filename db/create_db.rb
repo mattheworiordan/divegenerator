@@ -1,7 +1,8 @@
 require 'rubygems'
 require 'activerecord'
+
 require 'config/setup.rb'
-require 'lib/generators'
+require 'lib/generators/generators.rb'
 
 module Generators
   dbconfig = YAML.load(File.read('config/database.yml'))  
