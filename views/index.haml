@@ -1,70 +1,73 @@
 !!!
 %html
-	%head
-		%meta{:"http-equiv" => "content-type", :content => "text/html", :charset => "utf-8"}
-		%link{:href => '/css/master.css', :type => 'text/css', :rel => 'stylesheet', :charset => "utf-8"}
-		%script{:src => '/scripts/jquery.min.js', :type => 'text/javascript'}
-		%script{:src => '/scripts/jquery.swfobject.min.js', :type => 'text/javascript'}
-		%script{:src => '/scripts/jquery.sifr.min.js', :type => 'text/javascript'}
-		%script{:src => '/scripts/global.js', :type => 'text/javascript'}
+  %head
+    %meta{:"http-equiv" => "content-type", :content => "text/html", :charset => "utf-8"}
+    %link{:href => '/css/master.css', :type => 'text/css', :rel => 'stylesheet', :charset => "utf-8"}
+    %script{:src => '/scripts/jquery.min.js', :type => 'text/javascript'}
+    %script{:src => '/scripts/jquery.swfobject.min.js', :type => 'text/javascript'}
+    %script{:src => '/scripts/jquery.sifr.min.js', :type => 'text/javascript'}
+    %script{:src => '/scripts/global.js', :type => 'text/javascript'}
 
-	%body
-		#header 
-			%div.header
-				%h1 Dive Generator
-				%div.strapline As used by the Bad Lieutenants ;)
-		#content
-			#formBox
-				%form
-					#container
-				
-						.column#discipline
-							%h2 1. 
-							%h3 Choose your discipline
-							%fieldset
-								- @disciplines.each do |discipline|
-									.option
-										%input{:type => "radio", :checked => discipline.title == @selected_discipline_title ? "checked" : nil, :name=>"post[discipline]", :id=>"discipline_" + discipline.id.to_s, :value=>discipline.title }
-										%label.radio{:for => "discipline_" + discipline.id.to_s }= discipline.title
-						.column.disabled#sequence
-							%h2 2. 
-							%h3 Select your dive sequence
-							%fieldset
-								- [['random','Random dives'], ['shortestrandom','Shortest route to do every move combination in random order (recommended, least jumps)'], ['shortest','Shortest route to do every move combination in alphanumeric order (not recommended, most jump)']].each do |sequence|
-									.option
-										%input{:type => "radio", :disabled => "true", :checked => sequence[0] == @selected_sequence ? "checked" : nil, :name=>"post[sequence]", :id=>"sequence_" + sequence[0], :value=>sequence[0] }
-										%label.radio{:for => "sequence_" + sequence[0] }= sequence[1]
-						.column.disabled#jumps
-							%h2 3. 
-							%h3 Number of jumps
-							%fieldset
-								- [['5','5'], ['10','10'], ['20','20'], ['all','All jumps needed to perform every block and random combination']].each do |jump|
-									.option
-										%input{:type => "radio", :disabled => "true", :checked => jump[0] == @selected_jumps ? "checked" : nil, :name=>"post[jumps]", :id=>"jumps_" + jump[0], :value=>jump[0] }
-										%label.radio{:for => "jumps_" + jump[0] }= jump[1]
-										
-				.row
-					%input.submit{:type => "submit", :value => "Generate Dives »", :id => "generate_dives_button"}
-			
-			#diveresult
-				%h2 Your Dive Pool
-				#summary Has a total of 5 dives.  
-				#download 
-					%a{:href=>"#"}Download the dives in Excel format »
-				
-				#divepool
-					.dive
-						.number 1.
-						.sequence A-B-12-1
-					.dive
-						.number 1.
-						.sequence A-B-12-1
-					.dive
-						.number 1.
-						.sequence A-B-12-1
-					.dive
-						.number 10.
-						.sequence A-B-12-1
-					.dive
-						.number 11.
-						.sequence A-B-12-1
+  %body
+    #header
+      %div.header
+        %h1 Dive Generator
+        %div.strapline
+          As used by the
+          %a{ :href => 'http://thebadlieutenants.com' } Bad Lieutenants
+          ;)
+    #content
+      #formBox
+        %form
+          #container
+
+            .column#discipline
+              %h2 1.
+              %h3 Choose your discipline
+              %fieldset
+                - @disciplines.each do |discipline|
+                  .option
+                    %input{:type => "radio", :checked => discipline.title == @selected_discipline_title ? "checked" : nil, :name=>"post[discipline]", :id=>"discipline_" + discipline.id.to_s, :value=>discipline.title }
+                    %label.radio{:for => "discipline_" + discipline.id.to_s }= discipline.title
+            .column.disabled#sequence
+              %h2 2.
+              %h3 Select your dive sequence
+              %fieldset
+                - [['random','Random dives'], ['shortestrandom','Shortest route to do every move combination in random order (recommended, least jumps)'], ['shortest','Shortest route to do every move combination in alphanumeric order (not recommended, most jump)']].each do |sequence|
+                  .option
+                    %input{:type => "radio", :disabled => "true", :checked => sequence[0] == @selected_sequence ? "checked" : nil, :name=>"post[sequence]", :id=>"sequence_" + sequence[0], :value=>sequence[0] }
+                    %label.radio{:for => "sequence_" + sequence[0] }= sequence[1]
+            .column.disabled#jumps
+              %h2 3.
+              %h3 Number of jumps
+              %fieldset
+                - [['5','5'], ['10','10'], ['20','20'], ['all','All jumps needed to perform every block and random combination']].each do |jump|
+                  .option
+                    %input{:type => "radio", :disabled => "true", :checked => jump[0] == @selected_jumps ? "checked" : nil, :name=>"post[jumps]", :id=>"jumps_" + jump[0], :value=>jump[0] }
+                    %label.radio{:for => "jumps_" + jump[0] }= jump[1]
+
+        .row
+          %input.submit{:type => "submit", :value => "Generate Dives »", :id => "generate_dives_button"}
+
+      #diveresult
+        %h2 Your Dive Pool
+        #summary Has a total of 5 dives.
+        #download
+          %a{:href=>"#"}Download the dives in Excel format »
+
+        #divepool
+          .dive
+            .number 1.
+            .sequence A-B-12-1
+          .dive
+            .number 1.
+            .sequence A-B-12-1
+          .dive
+            .number 1.
+            .sequence A-B-12-1
+          .dive
+            .number 10.
+            .sequence A-B-12-1
+          .dive
+            .number 11.
+            .sequence A-B-12-1

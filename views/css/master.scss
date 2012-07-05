@@ -41,7 +41,15 @@ a, a:visited, a:link {
   .strapline {
     margin-left: 25px;
     font-size: 12px;
-    font-style: italic; } }
+    font-style: italic;
+    a {
+      color: #009;
+      font-weight: normal;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  } }
 
 #content {
   padding: 10px;
