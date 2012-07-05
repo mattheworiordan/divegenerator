@@ -72,3 +72,9 @@ get '/css/*.css' do
 
   scss :'css/master'
 end
+
+get '/docs/2012_CR_VFS.pdf' do
+  content_type 'application/pdf', :charset => 'utf-8'
+  mime_type 'application/pdf'
+  File.open('./docs/2012_CR_VFS.pdf').read
+end

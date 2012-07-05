@@ -29,6 +29,8 @@
                   .option
                     %input{:type => "radio", :checked => discipline.title == @selected_discipline_title ? "checked" : nil, :name=>"post[discipline]", :id=>"discipline_" + discipline.id.to_s, :value=>discipline.title }
                     %label.radio{:for => "discipline_" + discipline.id.to_s }= discipline.title
+              %br
+              %a{ :href => 'docs/2012_CR_VFS.pdf' } Download the 2012 VFS rules &raquo;
             .column.disabled#sequence
               %h2 2.
               %h3 Select your dive sequence

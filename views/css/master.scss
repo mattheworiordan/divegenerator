@@ -1,5 +1,6 @@
 $divecolor: white;
 $pagecolor: #006699;
+$container-color: #E2E6FF;
 
 body {
   background-color: $pagecolor;
@@ -14,7 +15,7 @@ fieldset {
   padding: 0; }
 
 a, a:visited, a:link {
-  color: $divecolor;
+  color: #4DA6FF;
   font-weight: bold;
   text-decoration: none;
   &:hover {
@@ -63,7 +64,7 @@ a, a:visited, a:link {
 
 #formBox {
   #container {
-    background-color: $pagecolor * 1.5;
+    background-color: $container-color;
     overflow: auto;
     width: 750px;
     margin: 0 auto 0 auto;
@@ -82,12 +83,16 @@ a, a:visited, a:link {
         padding: 0 0 8px;
         display: block; } }
     .disabled {
-      color: $pagecolor * 0.75; } }
+      color: $pagecolor * 0.75; }
+    a {
+      font-weight: normal;
+    }
+  }
   .row {
     width: 730px;
     padding: 10px;
     margin: 10px auto 10px auto;
-    background-color: $pagecolor * 1.5;
+    background-color: $container-color;
     overflow: auto;
     input.submit {
       background-color: #f3f3f3;
@@ -105,7 +110,7 @@ a, a:visited, a:link {
   width: 730px;
   padding: 10px;
   margin: 10px auto 10px auto;
-  background-color: $pagecolor * 1.5;
+  background-color: $container-color;
   overflow: auto;
   clear: both;
   display: none;
