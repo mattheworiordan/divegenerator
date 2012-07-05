@@ -56,31 +56,15 @@ get '/shortest_path.*' do
     end
   end
 
-
-
   case @content_type
     when :json then
-      mime :json, "application/json"
+      mime_type 'application/json'
       result.to_json
     when :csv then
-      mime :csv, "text/csv"
+      mime_type 'text/csv'
       result[:success] ? "Dive\n" + result[:data].map { |move| "'" << (move.map { |mv| mv.symbol }.join('-')) << "'" }.join("\n") : 'Error generating CSV - ' + result[:message]
     else result[:success] ? result[:data].map { |move| move.map { |mv| mv.symbol }.join('-') }.join('<br>') : '<h1>Error generating HTML - ' + result[:message] + '</h1>'
   end
-
-  # haml :index
-
-
-
-  # puts("\n\n
-  # Summary of moves used
-  # ---------------------")
-  # puts(shortestPath.analyze)
-  #
-  # puts("\n\n
-  # Quick random draw
-  # ---------------------")
-  # puts(diveGenerator.getRandomDives(5, true).to_s)
 end
 
 get '/css/*.css' do
