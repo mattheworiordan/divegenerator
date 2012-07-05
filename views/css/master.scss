@@ -124,4 +124,12 @@ a, a:visited, a:link {
         font-weight: bold;
         float: right;
         text-align: right;
-        font-size: 1.1em; } } } }
+        font-size: 1.1em;
+        .divider {
+          &::before {
+            content: '-';
+            color: rgba(255,255,255,0.5);
+          }
+          padding: 0 0.2em 0 0.2em;
+        }
+      } } } }

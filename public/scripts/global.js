@@ -30,7 +30,7 @@ function generate_dives()
         var moveSymbol = [];
         for (move in data.data[jump])
            moveSymbol.push (data.data[jump][move].symbol)
-        dp.append ("<div class='dive'><div class='number'>" + sequence++ + ". </div><div class='sequence'>" + moveSymbol.join(' - ') + "</div></div>");
+        dp.append ("<div class='dive'><div class='number'>" + sequence++ + ". </div><div class='sequence'>" + moveSymbol.join('<span class="divider" />') + "</div></div>");
       }
       $('#diveresult #summary').text ("Has a total of " + (sequence-1) + " dives.");
     }
