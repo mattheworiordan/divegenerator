@@ -3,7 +3,7 @@ module Generators
   DIVE_RANDOM = 2
 end
 
-require 'lib/generators/dive_sequence'
-require 'lib/generators/dive'
-require 'lib/generators/dive_generator'
-require 'lib/generators/skydive_move'
+require_relative 'dive_sequence'
+require_relative 'dive'
+require_relative 'dive_generator'
+require_relative 'skydive_move'

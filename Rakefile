@@ -38,7 +38,7 @@ task :stop do
 	else
 	  m = `netstat -lptn | grep 0.0.0.0:#{port}`.match(/LISTEN\s*(\d+)/)
 	end
-	
+
 	if m
 		pid = m[1].to_i
 		puts "Killing old server #{pid}"
@@ -48,5 +48,5 @@ end
 
 desc "Create the database schema and populate with data"
 task :"db:create" do
-	require 'db/create_db.rb'
+	require './db/create_db.rb'
 end
