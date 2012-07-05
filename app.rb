@@ -86,5 +86,5 @@ end
 get '/css/*.css' do
   content_type 'text/css', :charset => 'utf-8'
 
-  sass :'css/master'
+  scss :'css/master'
 end
