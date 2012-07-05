@@ -28,9 +28,9 @@ module Generators
   (discipline = Discipline.new(:title => "Freestyle", :min_points_per_round => 5)).save
   ('1'..'10').each { |v| Move.new(:discipline_id => discipline.id, :title => "Unknown", :shortname => v.to_s, :points => 1, :move_type => DIVE_RANDOM).save }
 
-  (discipline = Discipline.new(:title => "VFS - Vertical Formation Skydiving", :min_points_per_round => 4)).save
-  ('1'..'14').each { |v| Move.new(:discipline_id => discipline.id, :title => "Unknown", :shortname => v.to_s, :points => 2, :move_type => DIVE_BLOCK).save }
-  ('A'..'L').each { |v| Move.new(:discipline_id => discipline.id, :title => "Unknown", :shortname => v.to_s, :points => 1, :move_type => DIVE_RANDOM).save }
+  (discipline = Discipline.new(:title => "VFS - Vertical Formation Skydiving", :min_points_per_round => 5)).save
+  ('1'..'17').each { |v| Move.new(:discipline_id => discipline.id, :title => "Unknown", :shortname => v.to_s, :points => 2, :move_type => DIVE_BLOCK).save }
+  ('A'..'N').each { |v| Move.new(:discipline_id => discipline.id, :title => "Unknown", :shortname => v.to_s, :points => 1, :move_type => DIVE_RANDOM).save }
 
   (discipline = Discipline.new(:title => "FS - Formation Skydiving", :min_points_per_round => 4)).save
   ('A'..'Q').each { |v| Move.new(:discipline_id => discipline.id, :title => "Unknown", :shortname => v.to_s, :points => 2, :move_type => DIVE_BLOCK).save }
