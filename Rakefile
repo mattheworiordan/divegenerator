@@ -1,3 +1,11 @@
+require 'rubygems'
+require 'bundler'
+
+Bundler.require
+
+require 'logger'
+require './app'
+
 port = 3099
 
 desc "Start the app server"
