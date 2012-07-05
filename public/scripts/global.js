@@ -81,13 +81,6 @@ function review_jump_numbers()
 }
 
 $(document).ready(function(){
-  $.sifr({
-    path: '/fonts/',
-    save: true,
-    version: 2
-  });
-  $('h1').sifr({ font: 'sansbetween' });
-
   $('#generate_dives_button').click(generate_dives);
   $("input[name='post[discipline]']").click(review_discipline);
   $("input[name='post[sequence]']").click(review_jump_numbers);

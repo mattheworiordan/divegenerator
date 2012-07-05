@@ -35,10 +35,15 @@ a, a:visited, a:link {
     width: 750px;
     padding-top: 50px; }
   h1 {
-    font-size: 35px;
+    font-size: 30px;
     font-weight: normal;
     font-family: Helvetica, Arial, Sans Serif;
-    margin: 15px 0 0 25px; }
+    margin: 15px 0 0 25px;
+
+    text-shadow:2px 2px 2px rgba(0,0,0,0.35);
+    -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=2,OffY=2,Color=#59000000,Positive=true)";zoom:1;
+    filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2,OffY=2,Color=#59000000,Positive=true);
+  }
   .strapline {
     margin-left: 25px;
     font-size: 12px;
@@ -104,7 +109,9 @@ a, a:visited, a:link {
       font-size: 1.2em;
       font-weight: bold;
       height: 4em;
-      width: 14em; } } }
+      width: 14em;
+      border-radius: 10px;
+    } } }
 
 #diveresult {
   width: 730px;
