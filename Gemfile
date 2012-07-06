@@ -10,3 +10,7 @@ group :development, :test do
   gem 'launchy'
   gem 'sqlite3'
 end
+
+group :production do
+  gem 'pg'
+end
